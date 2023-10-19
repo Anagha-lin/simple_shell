@@ -26,9 +26,6 @@ char *_strchr(const char *s, char c);
 char *_strtok(char *str, const char *delimiters);
 int _strcmp(char *s1, char *s2);
 int _strlen(char *str);
-char *_strcpy(char *dest, char *src);
-char *_strcat(char *dest, char *src);
-char *_strdup(char *s);
 
 /* shell functions */
 int main(int argc, char *argv[]);
@@ -40,8 +37,5 @@ void print_env(char *input);
 char **split_path(void);
 void free_path(char **path);
 char *get_path(char *in);
-int split_args(char *command, char **args);
-void execute_child(char **args, char *cmd, char *argv0);
-
 
 #endif

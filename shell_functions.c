@@ -25,11 +25,101 @@ char *read_input(void)
 }
 
 /**
- * execute_command - Execute a command using fork and execlp.
+ * get_path - Locate a command in the system's PATH directories
+ * @in: The command to search for
  *
- * @input: The command to execute.
- * @argv0: The name of the calling program for error reporting.
+ * Return: A pointer to the full path of the command if found, or NULL
  */
+char *get_path(char *in)
+{
+	char *path, *path_cp, *path_token, *file_path;
+	int cmd_len, dir_len;
+	struct stat buf;
+
+	path = "/bin:/sbin:/tmp";
+	if (path)
+	{
+		path_cp = _strdup(path);
+		cmd_len = _strlen(in);
+		path_token = strtok(path_cp, ":");
+
+		while (path_token != NULL)
+		{
+			dir_len = _strlen(path_token);
+			file_path = malloc(cmd_len + dir_len + 2);
+			_strcpy(file_path, path_token);
+			_strcat(file_path, "/");
+			_strcat(file_path, in);
+			_strcat(file_path, "\0");
+
+			if (stat(file_path, &buf) == 0)
+			{
+				free(path_cp);
+				return (file_path);
+			}
+			else
+			{
+				free(file_path);
+				path_token = strtok(NULL, ":");
+			}
+		}
+		free(path_cp);
+
+		if (stat(in, &buf) == 0)
+		{
+			return (in);
+		}
+		return (NULL);
+	}
+	return (NULL);
+}
+
+
+/**
+* split_args - Split the command string into arguments.
+*
+* @command: The command string to split.
+* @args: An array to store the arguments.
+*
+* Return: The number of arguments.
+*/
+int split_args(char *command, char **args)
+{
+	char *token = strtok(command, " ");
+	int arg_count = 0;
+
+	while (token != NULL)
+	{
+		args[arg_count++] = token;
+		token = strtok(NULL, " ");
+	}
+	args[arg_count] = NULL;
+
+	return (arg_count);
+}
+
+/**
+* execute_child - Execute the command in the child process.
+*
+* @args: The arguments to execute.
+* @cmd: The full path of the command.
+* @argv0: The name of the calling program for error reporting.
+*/
+void execute_child(char **args, char *cmd, char *argv0)
+{
+	if (execve(cmd, args, environ) == -1)
+	{
+		perror(argv0);
+		exit(EXIT_FAILURE);
+	}
+}
+
+/**
+* execute_command - Execute a command using fork and execlp.
+*
+* @input: The command to execute.
+* @argv0: The name of the calling program for error reporting.
+*/
 void execute_command(char *input, char *argv0)
 {
 	char *trimmed_input = input + strspn(input, " "), *cmd;
@@ -62,100 +152,11 @@ void execute_command(char *input, char *argv0)
 			perror(argv0);
 			return;
 		}
-		if (execve(cmd, args, environ) == -1)
-		{
-			perror(argv0);
-			exit(EXIT_FAILURE);
-		}
+		execute_child(args, cmd, argv0);
+		free(cmd);
 	}
 	else
 	{
 		wait(NULL);
 	}
-	free(cmd);
-}
-
-/**
- * handle_exit - Handles the "exit" command.
- *
- * @input: The input string to check.
- */
-void handle_exit(char *input)
-{
-	if (_strcmp(input, "exit") == 0)
-	{
-		exit(EXIT_SUCCESS);
-	}
-}
-
-/**
- * print_env - Handles the "env" by printing the
- * the current environment
- *
- * @input: The input string to check.
- */
-void print_env(char *input)
-{
-	if (_strcmp(input, "env") == 0)
-	{
-		char **env = environ;
-
-		while (*env)
-		{
-			int len = _strlen(*env);
-
-			write(STDOUT_FILENO, *env, len);
-			write(STDOUT_FILENO, "\n", 1);
-			env++;
-		}
-	}
-}
-/**
- * get_path - Locate a command in the system's PATH directories
- * @in: The command to search for
- *
- * Return: A pointer to the full path of the command if found, or NULL
- */
-char *get_path(char *in)
-{
-	char *path, *path_cp, *path_token, *file_path;
-	int cmd_len, dir_len;
-	struct stat buf;
-
-	path = "/bin:/sbin:/tmp";
-	if (path)
-	{
-		path_cp = strdup(path);
-		cmd_len = _strlen(in);
-		path_token = strtok(path_cp, ":");
-
-		while (path_token != NULL)
-		{
-			dir_len = _strlen(path_token);
-			file_path = malloc(cmd_len + dir_len + 2);
-			strcpy(file_path, path_token);
-			strcat(file_path, "/");
-			strcat(file_path, in);
-			strcat(file_path, "\0");
-
-			if (stat(file_path, &buf) == 0)
-			{
-				free(path_cp);
-				return (file_path);
-			}
-			else
-			{
-				free(file_path);
-				path_token = strtok(NULL, ":");
-			}
-		}
-		free(path_cp);
-
-		if (stat(in, &buf) == 0)
-		{
-			return (in);
-		}
-		return (NULL);
-	}
-	return (NULL);
 }
