@@ -26,10 +26,10 @@ void print_env(char *input)
 
 		while (*env)
 		{
-			int len = _strlen(*env);
+			/*int len = _strlen(*env);
 
 			write(STDOUT_FILENO, *env, len);
-			write(STDOUT_FILENO, "\n", 1);
+			write(STDOUT_FILENO, "\n", 1);*/
 			env++;
 		}
 	}

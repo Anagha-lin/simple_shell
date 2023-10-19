@@ -9,7 +9,7 @@ void print_prompt(void)
 	{
 		char prompt[] = "$ ";
 
-		write(STDOUT_FILENO, prompt, strlen(prompt));
+		write(STDOUT_FILENO, prompt, _strlen(prompt));
 		fflush(stdout);
 	}
 }
@@ -38,7 +38,6 @@ int main(int argc, char *argv[])
 		}
 		handle_exit(input);
 		print_env(input);
-		/*printf("find path for %s = %s \n",input,get_path(input));*/
 
 		execute_command(input, argv[0]);
 		free(input);
