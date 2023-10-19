@@ -46,13 +46,13 @@ char *_strcpy(char *dest, char *src)
  */
 char *_strdup(char *s)
 {
+	size_t len = _strlen(s);
+	char *copy = (char *)malloc(len + 1);
+
 	if (s == NULL)
 	{
 		return (NULL);
 	}
-
-	size_t len = _strlen(s);
-	char *copy = (char *)malloc(len + 1);
 
 	if (copy == NULL)
 	{
