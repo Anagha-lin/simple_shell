@@ -20,7 +20,7 @@ char *read_input(void)
 		return (NULL);
 	}
 
-	input[strcspn(input, "\n")] = '\0';
+	input[_strcspn(input, "\n")] = '\0';
 	return (input);
 }
 
@@ -122,7 +122,7 @@ void execute_child(char **args, char *cmd, char *argv0)
 */
 void execute_command(char *input, char *argv0)
 {
-	char *trimmed_input = input + strspn(input, " "), *cmd;
+	char *trimmed_input = input + _strspn(input, " "), *cmd;
 	int input_length = _strlen(trimmed_input);
 	pid_t pid = fork();
 

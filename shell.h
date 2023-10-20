@@ -29,6 +29,8 @@ int _strlen(char *str);
 char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
 char *_strdup(char *s);
+int _strspn(char *s, char *accept);
+int _strcspn(const char *s, const char *reject);
 
 /* shell functions */
 int main(int argc, char *argv[]);

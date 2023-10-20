@@ -62,3 +62,64 @@ char *_strdup(char *s)
 
 	return (copy);
 }
+
+/**
+ * _strspn - Gets the length of a prefix substring.
+ * @s: Pointer to the string to be checked.
+ * @accept: Pointer to the string containing the acceptable characters.
+ *
+ * Return: The number of bytes in the initial segment of s that consist only
+ *         of bytes from accept.
+ */
+int _strspn(char *s, char *accept)
+{
+	int count = 0;
+	int i, j, fnd;
+
+	for (i = 0; s[i] != '\0'; i++)
+	{
+		fnd = 0;
+		for (j = 0; accept[j] != '\0'; j++)
+		{
+			if (s[i] == accept[j])
+			{
+				count++;
+				fnd = 1;
+				break;
+			}
+		}
+		if (fnd == 0)
+		{
+			break;
+		}
+	}
+	return (count);
+}
+
+/**
+ * _strcspn - Calculates the length of a prefix substring in the input string
+ * that does not contain any character from the reject set.
+ *
+ * @s: The input string to search.
+ * @reject: The set of characters to reject.
+ *
+ * Return: The length of the prefix substri.
+ */
+int _strcspn(const char *s, const char *reject)
+{
+	const char *p, *r;
+	int count = 0;
+
+	for (p = s; *p != '\0'; p++)
+	{
+		for (r = reject; *r != '\0'; r++)
+		{
+			if (*p == *r)
+			{
+				return (count);
+			}
+		}
+		count++;
+	}
+	return (count);
+}
