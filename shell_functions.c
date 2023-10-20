@@ -51,7 +51,6 @@ char *get_path(char *in)
 			_strcat(file_path, "/");
 			_strcat(file_path, in);
 			_strcat(file_path, "\0");
-
 			if (stat(file_path, &buf) == 0)
 			{
 				free(path_cp);
@@ -65,7 +64,6 @@ char *get_path(char *in)
 		}
 		free(path_cp);
 		free(file_path);
-
 		if (stat(in, &buf) == 0)
 		{
 			return (in);
