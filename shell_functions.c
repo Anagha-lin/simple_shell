@@ -64,6 +64,7 @@ char *get_path(char *in)
 			}
 		}
 		free(path_cp);
+		free(file_path);
 
 		if (stat(in, &buf) == 0)
 		{
