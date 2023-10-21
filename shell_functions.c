@@ -41,6 +41,7 @@ char *get_path(char *in)
 	{
 		path_cp = _strdup(path);
 		cmd_len = _strlen(in);
+		file_path = NULL;
 		path_token = strtok(path_cp, ":");
 
 		while (path_token != NULL)
