@@ -60,6 +60,7 @@ char *get_path(char *in)
 			else
 			{
 				free(file_path);
+				file_path = NULL;
 				path_token = strtok(NULL, ":");
 			}
 		}
