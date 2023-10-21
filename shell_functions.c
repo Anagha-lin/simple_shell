@@ -43,7 +43,6 @@ char *get_path(char *in)
 		cmd_len = _strlen(in);
 		file_path = NULL;
 		path_token = strtok(path_cp, ":");
-
 		while (path_token != NULL)
 		{
 			dir_len = _strlen(path_token);
